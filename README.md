@@ -18,3 +18,4 @@ This is a REST api that is built with MongoDB as the database, Express as the se
 - MongoDB with Mongoose
 - Typescript
 - Express and express middleware
+- Zod for data validation
