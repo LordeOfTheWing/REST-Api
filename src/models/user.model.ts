@@ -1,0 +1,60 @@
+import mongoose, { Schema, model } from 'mongoose';
+import bcrypt from 'bcrypt';
+import config from 'config';
+
+export interface UserDocument extends mongoose.Document {
+  email: string;
+  name: string;
+  password: string;
+  createdAt: Date;
+  updatedAt: Date;
+  comparePasswords(candidatePassword: string): Promise<boolean>;
+}
+
+const UserSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
+UserSchema.pre('save', async function (next) {
+  let user = this as UserDocument;
+
+  //Only hash the password if it has been modified (or is new)
+  if (!user.isModified('password')) return next();
+
+  //Random additional data
+  const salt = await bcrypt.genSalt(config.get<number>('saltWorkFactor'));
+
+  const hash = await bcrypt.hashSync(user.password, salt);
+
+  //Replace the password with the hashed one
+  user.password = hash;
+
+  return next();
+});
+
+//Used for logging in
+UserSchema.methods.comparePasswords = async function (
+  candidatePassword: string
+): Promise<boolean> {
+  const user = this as UserDocument;
+
+  return bcrypt.compare(candidatePassword, user.password).catch((e) => false);
+};
+
+const UserModel = model<UserDocument>('User', UserSchema);
+export default UserModel;
