@@ -39,7 +39,7 @@ export async function updateProductHandler(
     res.status(404).send("Product does not exist");
   }
 
-  if (product?.user !== userId) {
+  if (String(product!.user) !== userId) {
     return res.sendStatus(403);
   }
 
@@ -78,7 +78,7 @@ export async function deleteProductHandler(
     res.status(404).send("Product does not exist");
   }
 
-  if (product?.user !== userId) {
+  if (product!.user !== userId) {
     return res.sendStatus(403);
   }
 
