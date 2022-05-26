@@ -1,6 +1,10 @@
 import { Express, Request, Response } from 'express';
-import { createUserSessionHandler } from './controllers/session.controller';
+import {
+  createUserSessionHandler,
+  getUserSessionsHandler,
+} from './controllers/session.controller';
 import { createUserHandler } from './controllers/user.controller';
+import requireUser from './middlewares/requireUser';
 import validateRequest from './middlewares/validateRequest';
 import { createSessionSchema } from './schemas/session.schema';
 import { createUserSchema } from './schemas/user.schema';
@@ -24,6 +28,8 @@ export default function (app: Express) {
     );
 
     //Get the user's sessions GET -- /api/sessions
+
+    app.get('/api/sessions', requireUser, getUserSessionsHandler);
 
     //Logout --- DELETE /api/sessions
   });
