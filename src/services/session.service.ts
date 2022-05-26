@@ -1,5 +1,6 @@
-import { FilterQuery } from 'mongoose';
-import SessionModel, { SessionDocument } from '../models/session.model';
+import { FilterQuery } from "mongoose";
+import Session from "../models/session.model";
+import SessionModel, { SessionDocument } from "../models/session.model";
 
 export async function createSession(userId: string, userAgent: string) {
   const session = await SessionModel.create({ user: userId, userAgent });
@@ -9,4 +10,11 @@ export async function createSession(userId: string, userAgent: string) {
 
 export async function findSessions(query: FilterQuery<SessionDocument>) {
   return SessionModel.find(query).lean();
+}
+
+export async function updateSession(
+  query: FilterQuery<SessionDocument>,
+  update: FilterQuery<SessionDocument>
+) {
+  return SessionModel.updateOne(query, update);
 }
