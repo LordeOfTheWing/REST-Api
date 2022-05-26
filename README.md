@@ -1,8 +1,8 @@
-### RESTful Api project
+# RESTful Api project
 
 This is a REST api that is built with MongoDB as the database, Express as the server-side framework and with typescript under the hood.
 
-### Concept
+## Concept
 
 - REST API Principals
 
@@ -12,7 +12,7 @@ This is a REST api that is built with MongoDB as the database, Express as the se
 
 - JWT and refresh tokens
 
-#### Technologies
+### Technologies
 
 - Node Js
 - MongoDB with Mongoose
