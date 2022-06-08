@@ -9,7 +9,7 @@ import deserializeUser from "./middlewares/deserializeUser";
 const port = config.get("port") as number;
 const host = config.get("host") as string;
 
-const app = express();
+export const app = express();
 
 app.use(helmet());
 app.use(express.json());
